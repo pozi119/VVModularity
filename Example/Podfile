@@ -1,4 +1,6 @@
-use_frameworks!
+platform :ios, '8.0'
+#use_frameworks!
+#inhibit_all_warnings!
 
 target 'VVModularity_Example' do
   pod 'VVModularity', :path => '../'
@@ -6,6 +8,6 @@ target 'VVModularity_Example' do
   target 'VVModularity_Tests' do
     inherit! :search_paths
 
-    pod 'FBSnapshotTestCase'
+#    pod 'FBSnapshotTestCase'
   end
 end
