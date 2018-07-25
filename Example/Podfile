@@ -8,6 +8,13 @@ target 'VVModularity_Example' do
   target 'VVModularity_Tests' do
     inherit! :search_paths
 
-#    pod 'FBSnapshotTestCase'
   end
+end
+
+target 'ModuleAA' do
+    pod 'VVModularity', :path => '../'
+end
+
+target 'ModuleBB' do
+    pod 'VVModularity', :path => '../'
 end

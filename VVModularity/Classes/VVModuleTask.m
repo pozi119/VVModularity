@@ -9,9 +9,9 @@
 
 @implementation VVModuleTask
 
-+ (instancetype)taskWithModule:(NSString *)module action:(NSString *)action{
++ (instancetype)taskWithTarget:(NSString *)target action:(NSString *)action{
     VVModuleTask *task = [[VVModuleTask alloc] init];
-    task.target = module;
+    task.target = target;
     task.action = action;
     return task;
 }
@@ -40,7 +40,7 @@
 }
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"taskId: %@, target: %@, source: %@, action: %@, timeout: %@,parameters: %@, progress: %@",@(_taskId),_target, _source, _action, @(_timeout), _parameters, _progress];
+    return [NSString stringWithFormat:@"taskId: %@, target: %@, source: %@, action: %@, timeout: %@, parameters: %@, progress: %@",@(_taskId),_target, _source, _action, @(_timeout), _parameters, _progress];
 }
 
 @end

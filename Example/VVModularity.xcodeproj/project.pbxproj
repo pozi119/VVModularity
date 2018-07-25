@@ -8,6 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		34A0DCBF99C1DE08CC0198FF /* libPods-VVModularity_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F99B5A47422C65513E20B00C /* libPods-VVModularity_Example.a */; };
+		3AD273DEE8AB496C97BECB0C /* libPods-ModuleAA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E14F7F85567336E8624F436 /* libPods-ModuleAA.a */; };
+		3EE6EC6721087A6400D12432 /* ModuleAA.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EE6EC6521087A6400D12432 /* ModuleAA.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3EE6EC6A21087A6400D12432 /* ModuleAA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE6EC6321087A6400D12432 /* ModuleAA.framework */; };
+		3EE6EC6B21087A6400D12432 /* ModuleAA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE6EC6321087A6400D12432 /* ModuleAA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3EE6EC7921087A7500D12432 /* ModuleBB.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EE6EC7721087A7500D12432 /* ModuleBB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3EE6EC7C21087A7500D12432 /* ModuleBB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE6EC7521087A7500D12432 /* ModuleBB.framework */; };
+		3EE6EC7D21087A7500D12432 /* ModuleBB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE6EC7521087A7500D12432 /* ModuleBB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3EE6EC8721087BAF00D12432 /* VVModuleAA.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EE6EC8521087BAF00D12432 /* VVModuleAA.h */; };
+		3EE6EC8821087BAF00D12432 /* VVModuleAA.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6EC8621087BAF00D12432 /* VVModuleAA.m */; };
+		3EE6EC8B21087BD200D12432 /* VVModuleBB.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EE6EC8921087BD200D12432 /* VVModuleBB.h */; };
+		3EE6EC8C21087BD200D12432 /* VVModuleBB.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6EC8A21087BD200D12432 /* VVModuleBB.m */; };
+		3EE6EC8D21087FF400D12432 /* ModuleAA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE6EC6321087A6400D12432 /* ModuleAA.framework */; };
+		3EE6EC8E21087FF700D12432 /* ModuleBB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE6EC7521087A7500D12432 /* ModuleBB.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -24,9 +37,24 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		AB79E935EC17E411D5A185C0 /* libPods-VVModularity_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA66EB60A44163189C9F90F9 /* libPods-VVModularity_Tests.a */; };
+		BCE787F6D88539B09FC0304E /* libPods-ModuleBB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFF3226B6C67F6C66B734AF /* libPods-ModuleBB.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3EE6EC6821087A6400D12432 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6003F582195388D10070C39A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3EE6EC6221087A6400D12432;
+			remoteInfo = ModuleAA;
+		};
+		3EE6EC7A21087A7500D12432 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6003F582195388D10070C39A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3EE6EC7421087A7500D12432;
+			remoteInfo = ModuleBB;
+		};
 		6003F5B3195388D20070C39A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6003F582195388D10070C39A /* Project object */;
@@ -36,8 +64,36 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3EE6EC6F21087A6400D12432 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3EE6EC7D21087A7500D12432 /* ModuleBB.framework in Embed Frameworks */,
+				3EE6EC6B21087A6400D12432 /* ModuleAA.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0E14F7F85567336E8624F436 /* libPods-ModuleAA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ModuleAA.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3582C24980BA6197EE55AC27 /* Pods-VVModularity_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VVModularity_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VVModularity_Example/Pods-VVModularity_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		3B42DCC33C7B37449A3110DC /* Pods-ModuleBB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleBB.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ModuleBB/Pods-ModuleBB.debug.xcconfig"; sourceTree = "<group>"; };
+		3EE6EC6321087A6400D12432 /* ModuleAA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModuleAA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EE6EC6521087A6400D12432 /* ModuleAA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleAA.h; sourceTree = "<group>"; };
+		3EE6EC6621087A6400D12432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3EE6EC7521087A7500D12432 /* ModuleBB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModuleBB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EE6EC7721087A7500D12432 /* ModuleBB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleBB.h; sourceTree = "<group>"; };
+		3EE6EC7821087A7500D12432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3EE6EC8521087BAF00D12432 /* VVModuleAA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VVModuleAA.h; sourceTree = "<group>"; };
+		3EE6EC8621087BAF00D12432 /* VVModuleAA.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VVModuleAA.m; sourceTree = "<group>"; };
+		3EE6EC8921087BD200D12432 /* VVModuleBB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VVModuleBB.h; sourceTree = "<group>"; };
+		3EE6EC8A21087BD200D12432 /* VVModuleBB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VVModuleBB.m; sourceTree = "<group>"; };
+		5FFF3226B6C67F6C66B734AF /* libPods-ModuleBB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ModuleBB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* VVModularity_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VVModularity_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -58,9 +114,12 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84422BAAD2E7088BB465D77D /* Pods-ModuleAA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleAA.release.xcconfig"; path = "Pods/Target Support Files/Pods-ModuleAA/Pods-ModuleAA.release.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		90011343B7014763B0F1D409 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		960310EF85B462C1AE2AA91F /* Pods-ModuleAA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleAA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ModuleAA/Pods-ModuleAA.debug.xcconfig"; sourceTree = "<group>"; };
 		A0D6D791B67CF9D66AFDE161 /* Pods-VVModularity_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VVModularity_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VVModularity_Tests/Pods-VVModularity_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		A97263409406E2EC7CEBB5A8 /* Pods-ModuleBB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleBB.release.xcconfig"; path = "Pods/Target Support Files/Pods-ModuleBB/Pods-ModuleBB.release.xcconfig"; sourceTree = "<group>"; };
 		AA66EB60A44163189C9F90F9 /* libPods-VVModularity_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VVModularity_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD949477016E61428A6C8357 /* Pods-VVModularity_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VVModularity_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VVModularity_Tests/Pods-VVModularity_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BFFE979C2887D33980002249 /* VVModularity.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = VVModularity.podspec; path = ../VVModularity.podspec; sourceTree = "<group>"; };
@@ -70,13 +129,31 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3EE6EC5F21087A6400D12432 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AD273DEE8AB496C97BECB0C /* libPods-ModuleAA.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3EE6EC7121087A7500D12432 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCE787F6D88539B09FC0304E /* libPods-ModuleBB.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F587195388D20070C39A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
+				3EE6EC7C21087A7500D12432 /* ModuleBB.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
+				3EE6EC6A21087A6400D12432 /* ModuleAA.framework in Frameworks */,
 				34A0DCBF99C1DE08CC0198FF /* libPods-VVModularity_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +162,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EE6EC8E21087FF700D12432 /* ModuleBB.framework in Frameworks */,
+				3EE6EC8D21087FF400D12432 /* ModuleAA.framework in Frameworks */,
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -95,12 +174,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3EE6EC6421087A6400D12432 /* ModuleAA */ = {
+			isa = PBXGroup;
+			children = (
+				3EE6EC6521087A6400D12432 /* ModuleAA.h */,
+				3EE6EC8521087BAF00D12432 /* VVModuleAA.h */,
+				3EE6EC8621087BAF00D12432 /* VVModuleAA.m */,
+				3EE6EC6621087A6400D12432 /* Info.plist */,
+			);
+			path = ModuleAA;
+			sourceTree = "<group>";
+		};
+		3EE6EC7621087A7500D12432 /* ModuleBB */ = {
+			isa = PBXGroup;
+			children = (
+				3EE6EC7721087A7500D12432 /* ModuleBB.h */,
+				3EE6EC8921087BD200D12432 /* VVModuleBB.h */,
+				3EE6EC8A21087BD200D12432 /* VVModuleBB.m */,
+				3EE6EC7821087A7500D12432 /* Info.plist */,
+			);
+			path = ModuleBB;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for VVModularity */,
 				6003F5B5195388D20070C39A /* Tests */,
+				3EE6EC6421087A6400D12432 /* ModuleAA */,
+				3EE6EC7621087A7500D12432 /* ModuleBB */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				E5971FC7EAABB552F572A140 /* Pods */,
@@ -112,6 +215,8 @@
 			children = (
 				6003F58A195388D20070C39A /* VVModularity_Example.app */,
 				6003F5AE195388D20070C39A /* VVModularity_Tests.xctest */,
+				3EE6EC6321087A6400D12432 /* ModuleAA.framework */,
+				3EE6EC7521087A7500D12432 /* ModuleBB.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,6 +230,8 @@
 				6003F5AF195388D20070C39A /* XCTest.framework */,
 				F99B5A47422C65513E20B00C /* libPods-VVModularity_Example.a */,
 				AA66EB60A44163189C9F90F9 /* libPods-VVModularity_Tests.a */,
+				0E14F7F85567336E8624F436 /* libPods-ModuleAA.a */,
+				5FFF3226B6C67F6C66B734AF /* libPods-ModuleBB.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -192,13 +299,76 @@
 				D42BA3E4F77145A737059F4B /* Pods-VVModularity_Example.release.xcconfig */,
 				AD949477016E61428A6C8357 /* Pods-VVModularity_Tests.debug.xcconfig */,
 				A0D6D791B67CF9D66AFDE161 /* Pods-VVModularity_Tests.release.xcconfig */,
+				960310EF85B462C1AE2AA91F /* Pods-ModuleAA.debug.xcconfig */,
+				84422BAAD2E7088BB465D77D /* Pods-ModuleAA.release.xcconfig */,
+				3B42DCC33C7B37449A3110DC /* Pods-ModuleBB.debug.xcconfig */,
+				A97263409406E2EC7CEBB5A8 /* Pods-ModuleBB.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		3EE6EC6021087A6400D12432 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EE6EC8721087BAF00D12432 /* VVModuleAA.h in Headers */,
+				3EE6EC6721087A6400D12432 /* ModuleAA.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3EE6EC7221087A7500D12432 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EE6EC8B21087BD200D12432 /* VVModuleBB.h in Headers */,
+				3EE6EC7921087A7500D12432 /* ModuleBB.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		3EE6EC6221087A6400D12432 /* ModuleAA */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3EE6EC6E21087A6400D12432 /* Build configuration list for PBXNativeTarget "ModuleAA" */;
+			buildPhases = (
+				AD6A0365219C1499ECEB2C4A /* [CP] Check Pods Manifest.lock */,
+				3EE6EC5E21087A6400D12432 /* Sources */,
+				3EE6EC5F21087A6400D12432 /* Frameworks */,
+				3EE6EC6021087A6400D12432 /* Headers */,
+				3EE6EC6121087A6400D12432 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ModuleAA;
+			productName = ModuleAA;
+			productReference = 3EE6EC6321087A6400D12432 /* ModuleAA.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3EE6EC7421087A7500D12432 /* ModuleBB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3EE6EC7E21087A7500D12432 /* Build configuration list for PBXNativeTarget "ModuleBB" */;
+			buildPhases = (
+				2582F6B67345B6DC68D29BA6 /* [CP] Check Pods Manifest.lock */,
+				3EE6EC7021087A7500D12432 /* Sources */,
+				3EE6EC7121087A7500D12432 /* Frameworks */,
+				3EE6EC7221087A7500D12432 /* Headers */,
+				3EE6EC7321087A7500D12432 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ModuleBB;
+			productName = ModuleBB;
+			productReference = 3EE6EC7521087A7500D12432 /* ModuleBB.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		6003F589195388D20070C39A /* VVModularity_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "VVModularity_Example" */;
@@ -207,10 +377,13 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
+				3EE6EC6F21087A6400D12432 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3EE6EC6921087A6400D12432 /* PBXTargetDependency */,
+				3EE6EC7B21087A7500D12432 /* PBXTargetDependency */,
 			);
 			name = VVModularity_Example;
 			productName = VVModularity;
@@ -246,6 +419,14 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = pozi119;
 				TargetAttributes = {
+					3EE6EC6221087A6400D12432 = {
+						CreatedOnToolsVersion = 9.4;
+						ProvisioningStyle = Automatic;
+					};
+					3EE6EC7421087A7500D12432 = {
+						CreatedOnToolsVersion = 9.4;
+						ProvisioningStyle = Automatic;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -266,11 +447,27 @@
 			targets = (
 				6003F589195388D20070C39A /* VVModularity_Example */,
 				6003F5AD195388D20070C39A /* VVModularity_Tests */,
+				3EE6EC6221087A6400D12432 /* ModuleAA */,
+				3EE6EC7421087A7500D12432 /* ModuleBB */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3EE6EC6121087A6400D12432 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3EE6EC7321087A7500D12432 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F588195388D20070C39A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -293,6 +490,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2582F6B67345B6DC68D29BA6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ModuleBB-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		31717D6D6B659A2BDFBBC186 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -305,6 +520,24 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-VVModularity_Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD6A0365219C1499ECEB2C4A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ModuleAA-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -332,6 +565,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3EE6EC5E21087A6400D12432 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EE6EC8821087BAF00D12432 /* VVModuleAA.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3EE6EC7021087A7500D12432 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EE6EC8C21087BD200D12432 /* VVModuleBB.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F586195388D20070C39A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -353,6 +602,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3EE6EC6921087A6400D12432 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3EE6EC6221087A6400D12432 /* ModuleAA */;
+			targetProxy = 3EE6EC6821087A6400D12432 /* PBXContainerItemProxy */;
+		};
+		3EE6EC7B21087A7500D12432 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3EE6EC7421087A7500D12432 /* ModuleBB */;
+			targetProxy = 3EE6EC7A21087A7500D12432 /* PBXContainerItemProxy */;
+		};
 		6003F5B4195388D20070C39A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6003F589195388D20070C39A /* VVModularity_Example */;
@@ -388,6 +647,140 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3EE6EC6C21087A6400D12432 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 960310EF85B462C1AE2AA91F /* Pods-ModuleAA.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ModuleAA/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.valo.ModuleAA;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3EE6EC6D21087A6400D12432 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84422BAAD2E7088BB465D77D /* Pods-ModuleAA.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ModuleAA/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.valo.ModuleAA;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		3EE6EC7F21087A7500D12432 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B42DCC33C7B37449A3110DC /* Pods-ModuleBB.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ModuleBB/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.valo.ModuleBB;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3EE6EC8021087A7500D12432 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A97263409406E2EC7CEBB5A8 /* Pods-ModuleBB.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ModuleBB/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.valo.ModuleBB;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		6003F5BD195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -492,10 +885,12 @@
 			baseConfigurationReference = 3582C24980BA6197EE55AC27 /* Pods-VVModularity_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVModularity/VVModularity-Prefix.pch";
 				INFOPLIST_FILE = "VVModularity/VVModularity-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -508,10 +903,12 @@
 			baseConfigurationReference = D42BA3E4F77145A737059F4B /* Pods-VVModularity_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVModularity/VVModularity-Prefix.pch";
 				INFOPLIST_FILE = "VVModularity/VVModularity-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -568,6 +965,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3EE6EC6E21087A6400D12432 /* Build configuration list for PBXNativeTarget "ModuleAA" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EE6EC6C21087A6400D12432 /* Debug */,
+				3EE6EC6D21087A6400D12432 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3EE6EC7E21087A7500D12432 /* Build configuration list for PBXNativeTarget "ModuleBB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EE6EC7F21087A7500D12432 /* Debug */,
+				3EE6EC8021087A7500D12432 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "VVModularity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

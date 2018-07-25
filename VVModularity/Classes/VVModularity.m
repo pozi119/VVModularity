@@ -85,7 +85,7 @@
            parameters:(id)parameters
               success:(nullable void (^)(id _Nullable))success
               failure:(nullable void (^)(NSError *))failure{
-    VVModuleTask *task = [VVModuleTask taskWithModule:module action:action];
+    VVModuleTask *task = [VVModuleTask taskWithTarget:module action:action];
     task.parameters = parameters;
     task.success = success;
     task.failure = failure;
@@ -118,7 +118,7 @@
         !task.failure ? : task.failure(error);
         return;
     }
-    [cls performModuleTask:task];
+    [cls performTask:task];
 #pragma clang diagnostic pop
 }
 

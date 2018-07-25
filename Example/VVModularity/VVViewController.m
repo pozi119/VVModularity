@@ -7,6 +7,8 @@
 //
 
 #import "VVViewController.h"
+#import "VVModuleAA.h"
+#import "VVModuleBB.h"
 
 @interface VVViewController ()
 
@@ -17,13 +19,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [VVModularity setClass:VVModuleAA.class forModule:@"ma"];
+    [VVModularity setClass:VVModuleAA.class forModule:@"mb"];
+    [self test];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)test{
+    VVModuleTask *task = [VVModuleTask taskWithTarget:@"ma" action:@"aa"];
+    task.progress = [NSProgress progressWithTotalUnitCount:100];
+    [task setSuccess:^(id responseObject) {
+        NSLog(@"response: %@", responseObject);
+    }];
+    [VVModularity performModuleTask:task];
+    [task.progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    NSLog(@"progress: %@",@([(NSProgress *)object fractionCompleted]));
 }
 
 @end
