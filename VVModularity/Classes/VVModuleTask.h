@@ -15,6 +15,7 @@
 @property (nullable, nonatomic, strong) id parameters;        ///< 传递参数
 @property (nullable, nonatomic, copy  ) NSString *source;     ///< 源模块名,可不传入
 @property (nullable, nonatomic, strong) NSProgress *progress; ///< 进度
+@property (nullable, nonatomic, copy  ) void (^cancel)(void); ///< 取消任务
 @property (nullable, nonatomic, copy  ) void (^success)(id __nullable responseObject); ///< 成功后的操作
 @property (nullable, nonatomic, copy  ) void (^failure)(NSError *error);               ///< 失败后的操作
 

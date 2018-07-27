@@ -43,4 +43,7 @@
     return [NSString stringWithFormat:@"taskId: %@, target: %@, source: %@, action: %@, timeout: %@, parameters: %@, progress: %@",@(_taskId),_target, _source, _action, @(_timeout), _parameters, _progress];
 }
 
+- (void)cancelTask{
+    !_cancel ? : _cancel();
+}
 @end

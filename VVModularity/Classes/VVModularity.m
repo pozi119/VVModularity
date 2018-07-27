@@ -7,24 +7,90 @@
 
 #import "VVModularity.h"
 
-@implementation VVModularity
+static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey;
 
-+ (NSMutableDictionary *)modules{
-    static NSMutableDictionary *_modules;
+@interface VVModularityPrivate : NSObject
+@property (nonatomic, strong) NSMutableDictionary *modules;
+@property (nonatomic, strong) NSMutableDictionary *tasks;
+@property (nonatomic, strong) NSMutableDictionary *taskTimes;
+@property (nonatomic, strong) dispatch_queue_t queue;
+@end
+
+@implementation VVModularityPrivate
++ (instancetype)innerPrivate{
+    static VVModularityPrivate *_innerPrivate;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _modules = [NSMutableDictionary dictionaryWithCapacity:0];
+        _innerPrivate = [[VVModularityPrivate alloc] init];
+        [_innerPrivate startCheckTimeout];
     });
-    return _modules;
+    return _innerPrivate;
 }
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _modules = [NSMutableDictionary dictionaryWithCapacity:0];
+        _tasks = [NSMutableDictionary dictionaryWithCapacity:0];
+        _taskTimes = [NSMutableDictionary dictionaryWithCapacity:0];
+        _queue = dispatch_queue_create("com.valo.modularity", NULL);
+        dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
+    }
+    return self;
+}
+
+- (void)startCheckTimeout{
+    dispatch_sync(_queue, ^{
+        NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(checkTimeout:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    });
+}
+
+- (void)checkTimeout:(NSTimer *)timer{
+    NSMutableDictionary *temp = [_taskTimes mutableCopy];
+    for (NSString *key in temp) {
+        NSUInteger time = [temp[key] unsignedIntegerValue];
+        VVModuleTask *task = _tasks[key];
+        time ++;
+        if (time > task.timeout) {
+            !task.cancel ? : task.cancel();
+            NSError *error = [VVModularity errorWithType:VVModuleErrorActionTimeout task:task];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                !task.failure ? : task.failure(error);
+                task.success = nil; // 即使task未设置cancel(),完成后也不会再次调用succuss();
+                task.failure = nil; // 即使task未设置cancel(),失败后也不会再次调用failure();
+            });
+        }
+        else{
+            _taskTimes[key] = @(time);
+        }
+    }
+}
+
+- (void)addTask:(VVModuleTask *)task{
+    NSString *key = @(task.taskId).stringValue;
+    _tasks[key] = task;
+    _taskTimes[key] = @(0);
+}
+
+- (void)removeTask:(VVModuleTask *)task{
+    NSString *key = @(task.taskId).stringValue;
+    [_tasks removeObjectForKey:key];
+    [_taskTimes removeObjectForKey:key];
+}
+
+@end
+
+@implementation VVModularity
 
 + (void)setClass:(Class)cls forModule:(NSString *)module{
     NSAssert((cls && [cls conformsToProtocol:@protocol(VVModule)]), @"模块必须遵循`@protocol(VVModule)`协议!");
-    [VVModularity.modules setObject:cls forKey:module];
+    [[VVModularityPrivate innerPrivate].modules setObject:cls forKey:module];
 }
 
 + (void)removeClassForModule:(NSString *)module{
-    [VVModularity.modules removeObjectForKey:module];
+    [[VVModularityPrivate innerPrivate].modules removeObjectForKey:module];
 }
 
 + (void)openURL:(NSURL *)url completionHandler:(void (^)(BOOL))completion{
@@ -94,7 +160,7 @@
 
 + (void)performModuleTask:(VVModuleTask *)task{
     // 获取目标Class
-    Class cls = VVModularity.modules[task.target];
+    Class cls = [VVModularityPrivate innerPrivate].modules[task.target];
     if(!cls){
         cls = NSClassFromString([NSString stringWithFormat:@"VVModule_%@", task.target]);
         if(!cls) cls = NSClassFromString(task.target);
@@ -108,7 +174,7 @@
             !task.failure ? : task.failure(error);
             return;
         }
-        VVModularity.modules[task.target] = cls;
+        [VVModularityPrivate innerPrivate].modules[task.target] = cls;
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -118,7 +184,24 @@
         !task.failure ? : task.failure(error);
         return;
     }
-    [cls performTask:task];
+    {
+        void(^origSuccess)(id __nullable responseObject) = [task.success copy];
+        void(^origFailure)(NSError *error) = [task.failure copy];
+        void(^success)(id __nullable responseObject) = ^(id __nullable responseObject) {
+            !origSuccess ? : origSuccess(responseObject);
+            [[VVModularityPrivate innerPrivate] removeTask:task];
+        };
+        void(^failure)(NSError *error) = ^(NSError *error) {
+            !origFailure ? : origFailure(error);
+            [[VVModularityPrivate innerPrivate] removeTask:task];
+            NSLog(@"error: %@", error);
+        };
+        task.timeout = 5;
+        task.success = success;
+        task.failure = failure;
+        [[VVModularityPrivate innerPrivate] addTask:task];
+        [cls performTask:task];
+    }
 #pragma clang diagnostic pop
 }
 

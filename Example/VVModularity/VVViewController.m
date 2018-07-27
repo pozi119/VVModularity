@@ -31,6 +31,17 @@
 }
 
 - (void)test{
+    __block NSInteger count = 0;
+    [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        count ++;
+        [self createTask];
+        if(count > 5){
+            [timer invalidate];
+        }
+    }];
+}
+
+- (void)createTask{
     VVModuleTask *task = [VVModuleTask taskWithTarget:@"ma" action:@"aa"];
     task.progress = [NSProgress progressWithTotalUnitCount:100];
     [task setSuccess:^(id responseObject) {
