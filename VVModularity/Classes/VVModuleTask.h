@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface VVModuleTask : NSObject
+@interface VVModuleTask : NSObject <NSCopying>
 @property (nonatomic, assign, readonly) NSUInteger taskId;    ///< 任务id
 @property (nonatomic, copy  ) NSString *target;               ///< 目标模块名
 @property (nonatomic, copy  ) NSString *action;               ///< 操作

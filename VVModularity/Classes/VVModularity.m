@@ -84,9 +84,10 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 
 @implementation VVModularity
 
-+ (void)setClass:(Class)cls forModule:(NSString *)module{
-    NSAssert((cls && [cls conformsToProtocol:@protocol(VVModule)]), @"模块必须遵循`@protocol(VVModule)`协议!");
-    [[VVModularityPrivate innerPrivate].modules setObject:cls forKey:module];
++ (void)setClass:(id)cls forModule:(NSString *)module{
+    Class clazz = [cls isKindOfClass:NSString.class] ? NSClassFromString(cls) : cls;
+    NSAssert((clazz && [clazz conformsToProtocol:@protocol(VVModule)]), @"模块必须遵循`@protocol(VVModule)`协议!");
+    [[VVModularityPrivate innerPrivate].modules setObject:clazz forKey:module];
 }
 
 + (void)removeClassForModule:(NSString *)module{
@@ -159,48 +160,50 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 }
 
 + (void)performModuleTask:(VVModuleTask *)task{
+    VVModuleTask *taskcopy = [task copy];
     // 获取目标Class
-    Class cls = [VVModularityPrivate innerPrivate].modules[task.target];
+    Class cls = [VVModularityPrivate innerPrivate].modules[taskcopy.target];
     if(!cls){
-        cls = NSClassFromString([NSString stringWithFormat:@"VVModule_%@", task.target]);
-        if(!cls) cls = NSClassFromString(task.target);
+        cls = NSClassFromString([NSString stringWithFormat:@"VVModule_%@", taskcopy.target]);
+        if(!cls) cls = NSClassFromString(taskcopy.target);
         if(!cls){
-            NSError *error = [self errorWithType:VVModuleErrorModuleNotExists task:task];
-            !task.failure ? : task.failure(error);
+            NSError *error = [self errorWithType:VVModuleErrorModuleNotExists task:taskcopy];
+            !taskcopy.failure ? : taskcopy.failure(error);
             return;
         }
         if(![cls conformsToProtocol:@protocol(VVModule)]){
-            NSError *error = [self errorWithType:VVModuleErrorModuleInvalid task:task];
-            !task.failure ? : task.failure(error);
+            NSError *error = [self errorWithType:VVModuleErrorModuleInvalid task:taskcopy];
+            !taskcopy.failure ? : taskcopy.failure(error);
             return;
         }
-        [VVModularityPrivate innerPrivate].modules[task.target] = cls;
+        [VVModularityPrivate innerPrivate].modules[taskcopy.target] = cls;
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     NSArray *supportedActions = [cls supportedActions];
-    if(![supportedActions containsObject:task.action]){
-        NSError *error = [self errorWithType:VVModuleErrorActionNotExists task:task];
-        !task.failure ? : task.failure(error);
+    if(![supportedActions containsObject:taskcopy.action]){
+        NSError *error = [self errorWithType:VVModuleErrorActionNotExists task:taskcopy];
+        !taskcopy.failure ? : taskcopy.failure(error);
         return;
     }
     {
-        void(^origSuccess)(id __nullable responseObject) = [task.success copy];
-        void(^origFailure)(NSError *error) = [task.failure copy];
+        void(^origSuccess)(id __nullable responseObject) = [taskcopy.success copy];
+        void(^origFailure)(NSError *error) = [taskcopy.failure copy];
         void(^success)(id __nullable responseObject) = ^(id __nullable responseObject) {
             !origSuccess ? : origSuccess(responseObject);
-            [[VVModularityPrivate innerPrivate] removeTask:task];
+            [[VVModularityPrivate innerPrivate] removeTask:taskcopy];
+            NSLog(@"response: %@",responseObject);
         };
         void(^failure)(NSError *error) = ^(NSError *error) {
             !origFailure ? : origFailure(error);
-            [[VVModularityPrivate innerPrivate] removeTask:task];
-            NSLog(@"error: %@", error);
+            [[VVModularityPrivate innerPrivate] removeTask:taskcopy];
+            NSLog(@"error: %@",error);
         };
-        task.timeout = 5;
-        task.success = success;
-        task.failure = failure;
-        [[VVModularityPrivate innerPrivate] addTask:task];
-        [cls performTask:task];
+        taskcopy.timeout = 5;
+        taskcopy.success = success;
+        taskcopy.failure = failure;
+        [[VVModularityPrivate innerPrivate] addTask:taskcopy];
+        [cls performTask:taskcopy];
     }
 #pragma clang diagnostic pop
 }
@@ -229,6 +232,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     }
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:0];
     userInfo[NSLocalizedDescriptionKey] = errorDescription;
+    userInfo[@"targetClass"] = [VVModularityPrivate innerPrivate].modules[task.target];
     userInfo[@"task"] = [task description];
     return [NSError errorWithDomain:@"com.valo.vvmodularity" code:type userInfo:userInfo];
 }

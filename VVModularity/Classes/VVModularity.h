@@ -42,10 +42,10 @@ typedef enum : NSUInteger {
 /**
  将类和模块名进行映射
 
- @param cls Objective-C类
+ @param cls Objective-C类/类名
  @param module 模块名
  */
-+ (void)setClass:(Class)cls forModule:(NSString *)module;
++ (void)setClass:(id)cls forModule:(NSString *)module;
 
 /**
  删除类和模块名的映射关系

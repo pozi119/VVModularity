@@ -7,8 +7,7 @@
 //
 
 #import "VVViewController.h"
-#import "VVModuleAA.h"
-#import "VVModuleBB.h"
+#import "VVModularity.h"
 
 @interface VVViewController ()
 
@@ -19,8 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [VVModularity setClass:VVModuleAA.class forModule:@"ma"];
-    [VVModularity setClass:VVModuleAA.class forModule:@"mb"];
+    [VVModularity setClass:@"VVModuleAA" forModule:@"ma"];
     [self test];
 }
 
@@ -35,7 +33,7 @@
     [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
         count ++;
         [self createTask];
-        if(count > 5){
+        if(count >= 5){
             [timer invalidate];
         }
     }];
@@ -49,6 +47,8 @@
     }];
     [VVModularity performModuleTask:task];
     [task.progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew context:nil];
+//    VVModuleTask *task1 = [VVModuleTask taskWithTarget:@"VVModuleBB" action:@"bb"];
+//    [VVModularity performModuleTask:task1];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
