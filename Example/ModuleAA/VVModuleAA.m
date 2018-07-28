@@ -14,22 +14,24 @@
     return @[@"aa"];
 }
 
-+ (void)performTask:(VVModuleTask *)task{
-    if([task.action isEqualToString:@"aa"]){
++ (void)performAction:(NSString *)action
+           parameters:(nullable id)parameters
+             progress:(nullable NSProgress *)progress
+              success:(nullable void (^)(id __nullable responseObject))success
+              failure:(nullable void (^)(NSError *error))failure{
+    if([action isEqualToString:@"aa"]){
         NSInteger total = 10;
         __block NSUInteger i = 0;
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
             i ++;
-            if (task.progress) {
-                task.progress.completedUnitCount =  i * task.progress.totalUnitCount / total;
+            if (progress) {
+                progress.completedUnitCount =  i * progress.totalUnitCount / total;
             }
+            NSLog(@"VVModuleAA-->: %@", @(i));
             if(i >= total){
-                !task.success ? : task.success(task.progress);
+                !success ? : success(progress);
                 [timer invalidate];
             }
-        }];
-        [task setCancel:^{
-            [timer invalidate];
         }];
     }
 }

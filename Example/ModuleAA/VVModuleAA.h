@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VVModularity.h"
 
-@interface VVModuleAA : NSObject <VVModule>
+@interface VVModuleAA : NSObject
 
 @end

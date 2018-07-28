@@ -7,6 +7,7 @@
 //
 
 #import "VVAppDelegate.h"
+#import "VVModularity.h"
 
 @implementation VVAppDelegate
 
@@ -41,6 +42,18 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return [VVModularity openURL:url completionHandler:nil];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation{
+    return [VVModularity openURL:url completionHandler:nil];
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options{
+    return [VVModularity openURL:url completionHandler:nil];
 }
 
 @end

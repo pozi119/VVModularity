@@ -14,6 +14,8 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 @property (nonatomic, strong) NSMutableDictionary *tasks;
 @property (nonatomic, strong) NSMutableDictionary *taskTimes;
 @property (nonatomic, strong) dispatch_queue_t queue;
+@property (nonatomic, strong) NSPredicate *hostPredicate;
+
 @end
 
 @implementation VVModularityPrivate
@@ -36,6 +38,8 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
         _taskTimes = [NSMutableDictionary dictionaryWithCapacity:0];
         _queue = dispatch_queue_create("com.valo.modularity", NULL);
         dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
+        NSString *pattern = @"(([a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4}))|((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
+        _hostPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
     }
     return self;
 }
@@ -86,7 +90,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 
 + (void)setClass:(id)cls forModule:(NSString *)module{
     Class clazz = [cls isKindOfClass:NSString.class] ? NSClassFromString(cls) : cls;
-    NSAssert((clazz && [clazz conformsToProtocol:@protocol(VVModule)]), @"模块必须遵循`@protocol(VVModule)`协议!");
+    BOOL confirmTask = [clazz respondsToSelector:@selector(performTask:)];
+    BOOL confirmAction = [clazz respondsToSelector:@selector(performAction:parameters:progress:success:failure:)];
+    NSAssert( clazz && (confirmTask || confirmAction), @"Module must responese `performTask:` or `performAction:parameters:progress:success:failure:`");
     [[VVModularityPrivate innerPrivate].modules setObject:clazz forKey:module];
 }
 
@@ -94,7 +100,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     [[VVModularityPrivate innerPrivate].modules removeObjectForKey:module];
 }
 
-+ (void)openURL:(NSURL *)url completionHandler:(void (^)(BOOL))completion{
++ (BOOL)openURL:(NSURL *)url completionHandler:(void (^)(BOOL))completion{
     NSAssert(url, @"url is nil!");
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
     /** 1.检查scheme是否匹配 */
@@ -114,40 +120,53 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     }
     if (!match) {
         !completion ? : completion(NO);
-        return;
+        return NO;
     }
     
     /** 2. 获取Module */
-    NSString *module = components.host;
+    /* 传入URL格式应该遵循以下规则
+     app://module/action/sub1path/sub2path?key1=val1&key2=val2 ....
+     app://www.xxx.com/module/action/sub1path/sub2path?key1=val1&key2=val2 ....
+     app://192.168.11.2/module/action/sub1path/sub2path?key1=val1&key2=val2 ....
+     */
+    BOOL isHost = [[VVModularityPrivate innerPrivate].hostPredicate evaluateWithObject:components.host];
+    NSArray *array = [components.path componentsSeparatedByString:@"/"]; //array[0] = @"";
+    if((isHost && array.count < 3) || (!isHost && array.count < 2)) return NO;
+    NSString *module = isHost ? array[1] : components.host;
     
     /** 3. 获取Action */
-    NSString *action = [components.path stringByReplacingOccurrencesOfString:@"/" withString:@""];
-
+    // 若传入URL的path中包含有module名,则去后面一个作为action名
+    NSString *action = isHost ? array[2]: array[1];
+    
     /** 4. 获取Parameters */
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    NSString *tmpstr = isHost ? [NSString stringWithFormat:@"%@/%@",module,action] : action;
+    NSRange range = [components.path rangeOfString:tmpstr];
+    NSString *subpath = [components.path substringFromIndex:range.location + range.length];
+    parameters[kVVModuleSubPath] = subpath;
     for (NSURLQueryItem *item in components.queryItems) {
         [parameters addEntriesFromDictionary:@{item.name: item.value}];
     }
     
     /** 5. 处理模块请求 */
-    [self performTarget:module action:action parameters:parameters success:^(id responseObject) {
+    return [self performTarget:module action:action parameters:parameters success:^(id responseObject) {
         !completion ? : completion(YES);
     } failure:^(NSError *error) {
         !completion ? : completion(NO);
     }];
 }
 
-+ (void)performTarget:(NSString *)module
++ (BOOL)performTarget:(NSString *)module
                action:(NSString *)action
            parameters:(id)parameters{
-    [self performTarget:module
-                 action:action
-             parameters:parameters
-                success:nil
-                failure:nil];
+    return [self performTarget:module
+                        action:action
+                    parameters:parameters
+                       success:nil
+                       failure:nil];
 }
 
-+ (void)performTarget:(NSString *)module
++ (BOOL)performTarget:(NSString *)module
                action:(NSString *)action
            parameters:(id)parameters
               success:(nullable void (^)(id _Nullable))success
@@ -156,75 +175,95 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     task.parameters = parameters;
     task.success = success;
     task.failure = failure;
-    [self performModuleTask:task];
+    return [self performModuleTask:task];
 }
 
-+ (void)performModuleTask:(VVModuleTask *)task{
++ (BOOL)performModuleTask:(VVModuleTask *)task{
     VVModuleTask *taskcopy = [task copy];
     // 获取目标Class
     Class cls = [VVModularityPrivate innerPrivate].modules[taskcopy.target];
+    BOOL confirmTask = [cls respondsToSelector:@selector(performTask:)];
+    BOOL confirmAction = [cls respondsToSelector:@selector(performAction:parameters:progress:success:failure:)];
     if(!cls){
         cls = NSClassFromString([NSString stringWithFormat:@"VVModule_%@", taskcopy.target]);
         if(!cls) cls = NSClassFromString(taskcopy.target);
         if(!cls){
             NSError *error = [self errorWithType:VVModuleErrorModuleNotExists task:taskcopy];
             !taskcopy.failure ? : taskcopy.failure(error);
-            return;
+            return NO;
         }
-        if(![cls conformsToProtocol:@protocol(VVModule)]){
+        if(!(confirmTask || confirmAction)){
             NSError *error = [self errorWithType:VVModuleErrorModuleInvalid task:taskcopy];
             !taskcopy.failure ? : taskcopy.failure(error);
-            return;
+            return NO;
         }
         [VVModularityPrivate innerPrivate].modules[taskcopy.target] = cls;
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    NSArray *supportedActions = [cls supportedActions];
-    if(![supportedActions containsObject:taskcopy.action]){
-        NSError *error = [self errorWithType:VVModuleErrorActionNotExists task:taskcopy];
-        !taskcopy.failure ? : taskcopy.failure(error);
-        return;
+    if([cls respondsToSelector:@selector(supportedActions)]){
+        NSArray *supportedActions = [cls supportedActions];
+        if(![supportedActions containsObject:taskcopy.action]){
+            NSError *error = [self errorWithType:VVModuleErrorActionNotExists task:taskcopy];
+            !taskcopy.failure ? : taskcopy.failure(error);
+            return NO;
+        }
     }
-    {
-        void(^origSuccess)(id __nullable responseObject) = [taskcopy.success copy];
-        void(^origFailure)(NSError *error) = [taskcopy.failure copy];
-        void(^success)(id __nullable responseObject) = ^(id __nullable responseObject) {
-            !origSuccess ? : origSuccess(responseObject);
-            [[VVModularityPrivate innerPrivate] removeTask:taskcopy];
-            NSLog(@"response: %@",responseObject);
+    
+    void(^origSuccess)(id __nullable responseObject) = [taskcopy.success copy];
+    void(^origFailure)(NSError *error) = [taskcopy.failure copy];
+    void(^success)(id __nullable responseObject) = ^(id __nullable responseObject) {
+        !origSuccess ? : origSuccess(responseObject);
+        [[VVModularityPrivate innerPrivate] removeTask:taskcopy];
+        NSLog(@"response: %@",responseObject);
+    };
+    void(^failure)(NSError *error) = ^(NSError *error) {
+        !origFailure ? : origFailure(error);
+        [[VVModularityPrivate innerPrivate] removeTask:taskcopy];
+        NSLog(@"error: %@",error);
+    };
+    taskcopy.timeout = 5;
+    taskcopy.success = success;
+    taskcopy.failure = failure;
+    if([cls respondsToSelector:@selector(cancelAction:)]){
+        __weak typeof(taskcopy) weakTask = taskcopy;
+        taskcopy.cancel = ^{
+            __strong typeof(weakTask) strongTask = weakTask;
+            [cls cancelAction:strongTask.action];
         };
-        void(^failure)(NSError *error) = ^(NSError *error) {
-            !origFailure ? : origFailure(error);
-            [[VVModularityPrivate innerPrivate] removeTask:taskcopy];
-            NSLog(@"error: %@",error);
-        };
-        taskcopy.timeout = 5;
-        taskcopy.success = success;
-        taskcopy.failure = failure;
-        [[VVModularityPrivate innerPrivate] addTask:taskcopy];
+    }
+    [[VVModularityPrivate innerPrivate] addTask:taskcopy];
+    if(confirmTask){
         [cls performTask:taskcopy];
     }
+    else{
+        [cls performAction:taskcopy.action
+                parameters:taskcopy.parameters
+                  progress:taskcopy.progress
+                   success:taskcopy.success
+                   failure:taskcopy.failure];
+    }
 #pragma clang diagnostic pop
+    return YES;
 }
 
 + (NSError *)errorWithType:(VVModuleError)type task:(VVModuleTask *)task{
-    NSString *errorDescription = @"其他错误!";
+    NSString *errorDescription = @"Unknown error";
     switch (type) {
         case VVModuleErrorModuleNotExists:
-            errorDescription = @"模块不存在!";
+            errorDescription = @"Module dose not exists";
             break;
             
         case VVModuleErrorModuleInvalid:
-            errorDescription = @"模块必须遵循`@protocol(VVModule)`协议!";
+            errorDescription = @"Module must responese `performTask:` or `performAction:parameters:progress:success:failure:`";
             break;
             
         case VVModuleErrorActionNotExists:
-            errorDescription = @"模块不支持此操作!";
+            errorDescription = @"Action dose not exists";
             break;
-
+            
         case VVModuleErrorActionTimeout:
-            errorDescription = @"模块操作超时!";
+            errorDescription = @"Action timeout";
             break;
 
         default:
