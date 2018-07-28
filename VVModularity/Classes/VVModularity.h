@@ -69,7 +69,7 @@ typedef enum : NSUInteger {
 @end
 
 /**
- 模块化中间件,使用类似http请求的方式进行交互
+ 模块化中间件,使用类似http请求的方式进行异步交互
  */
 @interface VVModularity : NSObject
 
@@ -99,11 +99,11 @@ typedef enum : NSUInteger {
  @return 是否传递到模块
  @note URL应遵循以下格式:
  
- `app://module/action/sub1path/sub2path?key1=val1&key2=val2 ....`,
+ `app://module/action/sub1path/sub2path?key1=val1&key2=val2 ...`,
  
- `app://www.xxx.com/module/action/sub1path/sub2path?key1=val1&key2=val2 ....`,
+ `app://www.xxx.com/module/action/sub1path/sub2path?key1=val1&key2=val2 ...`,
  
- `app://192.168.11.2/module/action/sub1path/sub2path?key1=val1&key2=val2 ....`
+ `app://192.168.11.2/module/action/sub1path/sub2path?key1=val1&key2=val2 ...`
  */
 + (BOOL)openURL:(NSURL*)url completionHandler:(void (^ __nullable)(BOOL success))completion;
 

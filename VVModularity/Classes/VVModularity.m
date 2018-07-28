@@ -125,9 +125,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     
     /** 2. 获取Module */
     /* 传入URL格式应该遵循以下规则
-     app://module/action/sub1path/sub2path?key1=val1&key2=val2 ....
-     app://www.xxx.com/module/action/sub1path/sub2path?key1=val1&key2=val2 ....
-     app://192.168.11.2/module/action/sub1path/sub2path?key1=val1&key2=val2 ....
+     `app://module/action/sub1path/sub2path?key1=val1&key2=val2 ...`,
+     `app://www.xxx.com/module/action/sub1path/sub2path?key1=val1&key2=val2 ...`,
+     `app://192.168.11.2/module/action/sub1path/sub2path?key1=val1&key2=val2 ...`
      */
     BOOL isHost = [[VVModularityPrivate innerPrivate].hostPredicate evaluateWithObject:components.host];
     NSArray *array = [components.path componentsSeparatedByString:@"/"]; //array[0] = @"";
@@ -192,6 +192,8 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
             !taskcopy.failure ? : taskcopy.failure(error);
             return NO;
         }
+        confirmTask = [cls respondsToSelector:@selector(performTask:)];
+        confirmAction = [cls respondsToSelector:@selector(performAction:parameters:progress:success:failure:)];
         if(!(confirmTask || confirmAction)){
             NSError *error = [self errorWithType:VVModuleErrorModuleInvalid task:taskcopy];
             !taskcopy.failure ? : taskcopy.failure(error);

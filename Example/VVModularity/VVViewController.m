@@ -19,7 +19,8 @@
 {
     [super viewDidLoad];
     [VVModularity setClass:@"VVModuleAA" forModule:@"ma"];
-    [self test];
+//    [self test];
+    [self test1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,6 +40,10 @@
     }];
 }
 
+- (void)test1{
+    [VVModularity performTarget:@"VVModuleBB" action:@"bb" parameters:nil];
+}
+
 - (void)createTask{
     VVModuleTask *task = [VVModuleTask taskWithTarget:@"ma" action:@"aa"];
     task.progress = [NSProgress progressWithTotalUnitCount:100];
@@ -47,8 +52,6 @@
     }];
     [VVModularity performModuleTask:task];
     [task.progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew context:nil];
-//    VVModuleTask *task1 = [VVModuleTask taskWithTarget:@"VVModuleBB" action:@"bb"];
-//    [VVModularity performModuleTask:task1];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{

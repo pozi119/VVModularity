@@ -10,12 +10,12 @@
 
 @implementation VVModuleBB
 
-+ (NSArray<NSString *> *)supportedActions{
-    return @[@"bb"];
-}
-
-+ (void)performTask:(VVModuleTask *)task{
-    if([task.action isEqualToString:@"bb"]){
++ (void)performAction:(NSString *)action
+           parameters:(nullable id)parameters
+             progress:(nullable NSProgress *)progress
+              success:(nullable void (^)(id __nullable responseObject))success
+              failure:(nullable void (^)(NSError *error))failure{
+    if([action isEqualToString:@"bb"]){
         NSLog(@"VVModuleBB: bb");
     }
 }

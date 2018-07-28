@@ -10,11 +10,3 @@ target 'VVModularity_Example' do
 
   end
 end
-
-target 'ModuleAA' do
-    pod 'VVModularity', :path => '../'
-end
-
-target 'ModuleBB' do
-    pod 'VVModularity', :path => '../'
-end
