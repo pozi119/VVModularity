@@ -144,6 +144,18 @@ typedef enum : NSUInteger {
               failure:(nullable void (^)(NSError *error))failure;
 
 /**
+ 执行模块任务,同步方式
+
+ @param module 目标模块名
+ @param action 模块操作
+ @param parameters 传递参数
+ @return 成功则返回执行结果(可为nil),失败则返回Error信息
+ */
++ (nullable id)syncPerformTarget:(NSString *)module
+                          action:(NSString *)action
+                      parameters:(nullable id)parameters;
+
+/**
  生成Error信息
 
  @param type 错误类型

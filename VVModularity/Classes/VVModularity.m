@@ -178,6 +178,22 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
     return [self performModuleTask:task];
 }
 
++ (id)syncPerformTarget:(NSString *)module
+                 action:(NSString *)action
+             parameters:(id)parameters{
+    __block id result = nil;
+    dispatch_semaphore_t lock = dispatch_semaphore_create(0);
+    [self performTarget:module action:action parameters:parameters success:^(id  _Nullable responseObject) {
+        result = responseObject;
+        dispatch_semaphore_signal(lock);
+    } failure:^(NSError *error) {
+        result = error;
+        dispatch_semaphore_signal(lock);
+    }];
+    dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);
+    return result;
+}
+
 + (BOOL)performModuleTask:(VVModuleTask *)task{
     VVModuleTask *taskcopy = [task copy];
     // 获取目标Class
